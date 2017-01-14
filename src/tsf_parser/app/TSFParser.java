@@ -1,3 +1,5 @@
+package tsf_parser.app;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,13 +12,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class TSFparser {
+public class TSFParser {
 	// Numbers have the following meaning
 	// Have a look at the leaderboard online
 	// 0	  1		 2
 	// Mar	  Feb	 Jan
 	
-	private static int selectedMonth = 2;
+	private int selectedMonth = 2;
+	ArrayList<String> monthsList;
+	ArrayList<TSFMember> memberList;
 	
 	//TODO pass parameters -> noGui
 	//TODO Graphic interface
@@ -25,34 +29,30 @@ public class TSFparser {
 	//TODO textfield for database path
 	//TODO create table in db
 	//TODO table name = year<current year yyyy> (example: year2016)
+
+
+	public TSFParser(){
+		
+	}
 	
-	
-	public static void main(String[] args) {
+	public void parseUsers(){
 		if (selectedMonth > 2 || selectedMonth < 0){
 			System.err.println("You fucked up! Please enter a month number between (including) 0 and 2!");
 			System.exit(1);
 		}
 		
-		ArrayList<TSFMember> memberlist = new ArrayList<TSFMember>();
-		ArrayList<String> datesList = new ArrayList<String>();
+		memberList = new ArrayList<TSFMember>();
 		
 		try {
 			Document doc = Jsoup.connect("https://core.telegram.org/tsi/leaderboards").get();
 
 			Element month_table = doc.select("tbody").get(1);
-			Elements all_dates = doc.select("thead th");
-
-			for (Element date : all_dates) {
-				if (!date.text().equals("") && !date.text().equals("Today") && !date.text().equals("Yesterday")) {
-					datesList.add(date.text().replaceAll(" \\d{4}", "").toLowerCase());
-					System.out.println("Added: " + date.text().replaceAll(" \\d{4}", "").toLowerCase());
-				}
-			}
 			
-			System.out.println(String.format("Month to be crawled is: %s", datesList.get(selectedMonth)));
+			System.out.println(String.format("Month to be crawled is: %s", monthsList.get(selectedMonth)));
 			
 			Elements month_entries = month_table.select("tr");
 
+			// Adds the members to the ArrayList
 			for (Element row : month_entries) {
 				Elements cols = row.select("td");
 				Element name = row.select("th").get(0);
@@ -65,56 +65,97 @@ public class TSFparser {
 					}
 					month_counter++;
 				}
-				memberlist.add(member);
+				memberList.add(member);
 			}
 
-			for (TSFMember member : memberlist) {
-				if (!isSaved(member.getName())) {
-					// Insert new user and Update afterwards
-					System.out.println("New User: " + member.getName());
-					writeToDB(member.getSQLInsertStatement());
-				}
-
-				// Update the data in the database
-				if (isValueZero(datesList.get(selectedMonth), member.getName())) {
-					writeToDB(member.getSQLStatement(datesList.get(selectedMonth)));
-				} else if(member.getMonth(selectedMonth) != 0) {
-					System.err.println("The field is already filled! Member: " + member.getName());
-					
-					Scanner scanner;											
-					scanner = new Scanner(System.in);
-					
-					int currentValue = getFromDB(datesList.get(selectedMonth), member.getName());
-					int newValue = member.getMonth(selectedMonth);
-					
-					System.out.print("Add " + newValue + " to " + currentValue + "? (Y/n): ");
-					String Answer = scanner.nextLine();
-					//scanner.close();
-					
-					if (Answer.equals("n")) {
-						System.out.println("Value not modified!");
-					}
-					if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
-						writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';", datesList.get(selectedMonth), datesList.get(selectedMonth), newValue, member.getName()));
-						System.out.println("Added both values to: " + getFromDB(datesList.get(selectedMonth), member.getName()));
-					}
-				} else {
-					System.out.println("Value must be zero: " + member.getMonth(selectedMonth));
-				}
-			}
-			
-			System.out.println("All members processed. Number of processed members: " + memberlist.size());
-
+			//TODO move to GUI
+			processUsers();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void processUsers(){
+		// Checks all the members and saves them to the database
+		for (TSFMember member : memberList) {
+			if (!isSaved(member.getName())) {
+				// Insert new user and Update afterwards
+				System.out.println("New User: " + member.getName());
+				writeToDB(member.getSQLInsertStatement());
+			}
 
+			// Update the data in the database
+			if (isValueZero(monthsList.get(selectedMonth), member.getName())) {
+				writeToDB(member.getSQLStatement(monthsList.get(selectedMonth)));
+			} else if(member.getMonth(selectedMonth) != 0) {
+				System.err.println("The field is already filled! Member: " + member.getName());
+				
+				Scanner scanner;											
+				scanner = new Scanner(System.in);
+				
+				int currentValue = getFromDB(monthsList.get(selectedMonth), member.getName());
+				int newValue = member.getMonth(selectedMonth);
+				
+				System.out.print("Add " + newValue + " to " + currentValue + "? (Y/n): ");
+				String Answer = scanner.nextLine();
+				//scanner.close();
+				
+				//TODO if console application -> this, else popup
+				if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
+					writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';", monthsList.get(selectedMonth), monthsList.get(selectedMonth), newValue, member.getName()));
+					System.out.println("Added both values to: " + getFromDB(monthsList.get(selectedMonth), member.getName()));
+				} else {
+					System.out.println("Value not modified!");
+				}
+			} else {
+				System.out.println("Value must be zero: " + member.getMonth(selectedMonth));
+			}
+		}
+		System.out.println("All members processed. Number of processed members: " + memberList.size());
+	}
+	
+	
+	public ArrayList<String> getMonthsList(){
+		return this.monthsList;
+	}
+	
+	public ArrayList<TSFMember> getMembersList(){
+		return this.memberList;
+	}
+	
+	public void setMonth(int month){
+		this.selectedMonth = month;
+		System.out.println(this.monthsList.get(month) + " selected.");
+	}
+	
+	// Has to be called first
+	public void parseMonths(){
+		monthsList = new ArrayList<String>();
+		try {
+			Document doc = Jsoup.connect("https://core.telegram.org/tsi/leaderboards").get();
+
+//			Element month_table = doc.select("tbody").get(1);
+			Elements all_dates = doc.select("thead th");
+
+			for (Element date : all_dates) {
+				if (!date.text().equals("") && !date.text().equals("Today") && !date.text().equals("Yesterday")) {
+					monthsList.add(date.text().replaceAll(" \\d{4}", "").toLowerCase());
+					System.out.println("Added: " + date.text().replaceAll(" \\d{4}", "").toLowerCase());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	// checks if a certain username is already saved in the database.
 	private static boolean isSaved(String name) {
 		Connection c = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			//TODO variable db path
 			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
 			Statement statement = c.createStatement();
 			ResultSet resultSet = statement.executeQuery(String.format("SELECT COUNT(*) FROM stats WHERE name='%s';", name));
@@ -147,6 +188,7 @@ public class TSFparser {
 		Connection c = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			//TODO variable db path
 			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
 			Statement statement = c.createStatement();
 			statement.executeUpdate(sql);
@@ -162,6 +204,7 @@ public class TSFparser {
 		int result;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			//TODO variable db path
 			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
 			Statement statement = c.createStatement();
 			ResultSet resultSet = statement.executeQuery(String.format("SELECT %s FROM stats WHERE name='%s';", month, name));
@@ -181,6 +224,7 @@ public class TSFparser {
 		Connection c = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			//TODO variable db path
 			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
 			Statement statement = c.createStatement();
 			ResultSet resultSet = statement
