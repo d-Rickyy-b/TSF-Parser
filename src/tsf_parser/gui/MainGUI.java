@@ -46,14 +46,14 @@ public class MainGUI extends JFrame {
 				} else if (args.length == 1) {
 					displayGUI = false;
 				}
-				
+
 				for (String element : args) {
 					System.out.println(element);
 					if (element.toLowerCase().equals("nogui")) {
 						// Don't display a GUI
 						displayGUI = false;
 					} else {
-						//TODO recognize month parameter
+						// TODO recognize month parameter
 						databasePath = element;
 					}
 				}

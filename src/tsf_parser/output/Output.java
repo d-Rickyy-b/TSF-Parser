@@ -6,16 +6,16 @@ import javax.swing.JOptionPane;
 
 public class Output {
 
-	public static void print(boolean displayGUI, String text){
+	public static void print(boolean displayGUI, String text) {
 		if (displayGUI) {
 			JOptionPane.showMessageDialog(null, text, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			System.out.println(text);
 		}
 	}
-	
-	public static boolean userDialog(boolean displayGUI, String text){
-		if (displayGUI){
+
+	public static boolean userDialog(boolean displayGUI, String text) {
+		if (displayGUI) {
 			int reply = JOptionPane.showConfirmDialog(null, text, "Info", JOptionPane.YES_NO_OPTION);
 			System.out.println(reply == JOptionPane.YES_OPTION);
 			return reply == JOptionPane.YES_OPTION;
@@ -31,7 +31,7 @@ public class Output {
 			} else {
 				return false;
 			}
-			//TODO No to all (capital N)
+			// TODO No to all (capital N)
 		}
 	}
 }

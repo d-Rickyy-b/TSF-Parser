@@ -28,7 +28,7 @@ public class TSFParser {
 	private static Database database;
 	private boolean noToAll = false;
 	private boolean yesToAll = false;
-	//TODO implement yestoall / notoall
+	// TODO implement yestoall / notoall
 
 	// TODO pass parameters -> noGui
 	// TODO Create database at the beginning
@@ -93,50 +93,27 @@ public class TSFParser {
 			}
 
 			// Update the data in the database
-			if (isValueZero(monthsList.get(selectedMonth), member.getName())) {
+			if (database.isValueZero(monthsList.get(selectedMonth), member.getName())) {
 				database.writeToDB(member.getSQLStatement(monthsList.get(selectedMonth)));
 			} else if (member.getMonth(selectedMonth) != 0) {
 				String text = "The field is already filled! Member: " + member.getName();
-				
-//					System.err.println("The field is already filled! Member: " + member.getName());
-//					Scanner scanner;
-//					scanner = new Scanner(System.in);
 
-					int currentValue = database.getFromDB(monthsList.get(selectedMonth), member.getName());
-					int newValue = member.getMonth(selectedMonth);
-					boolean modifyValue = Output.userDialog(displayGUI, text + "\nAdd " + newValue + " to " + currentValue + "? (Y/n): ");
-					//TODO Add "No to all" field
-					
-//					System.out.print("Add " + newValue + " to " + currentValue + "? (Y/n): ");
-//					String Answer = scanner.nextLine();
-//					// scanner.close();
-//					if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
-//						writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';",
-//								monthsList.get(selectedMonth), monthsList.get(selectedMonth), newValue,
-//								member.getName()));
-//						System.out.println("Added both values to: "
-//								+ database.getFromDB(monthsList.get(selectedMonth), member.getName()));
-//					} else {
-//						System.out.println("Value not modified!");
-//						Output.print(displayGUI, "Value not modified!");
-//					}
-					if (modifyValue) {
-						database.writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';",
-								monthsList.get(selectedMonth), monthsList.get(selectedMonth), newValue,
-								member.getName()));
-						//TODO sysout ändern
-						System.out.println("Added both values to: "
-								+ database.getFromDB(monthsList.get(selectedMonth), member.getName()));
-					} else {
-						Output.print(displayGUI, "Value not modified!");
-					}
-					
-					
+				int currentValue = database.getFromDB(monthsList.get(selectedMonth), member.getName());
+				int newValue = member.getMonth(selectedMonth);
+				boolean modifyValue = Output.userDialog(displayGUI,
+						text + "\nAdd " + newValue + " to " + currentValue + "? (Y/n): ");
+				// TODO Add "No to all" field
+
+				if (modifyValue) {
+					database.writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';",
+							monthsList.get(selectedMonth), monthsList.get(selectedMonth), newValue, member.getName()));
+				}
+
 			} else {
-				System.out.println("Value must be zero: " + member.getMonth(selectedMonth));
+				System.out.println(String.format("Value must be zero: %s | %s", member.getName(), member.getMonth(selectedMonth)));
 			}
 		}
-		System.out.println("All members processed. Number of processed members: " + memberList.size());
+		Output.print(displayGUI, "All members processed. Number of processed members: " + memberList.size());
 	}
 
 	public ArrayList<String> getMonthsList() {
@@ -175,29 +152,4 @@ public class TSFParser {
 
 	}
 
-	// Checks if a certain user got 0 answers in a certain month
-	private static boolean isValueZero(String month, String name) {
-		Connection c = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// TODO variable db path
-			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
-			Statement statement = c.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT " + month + " FROM stats WHERE name='" + name + "';");
-			resultSet.next();
-
-			if (resultSet.getInt(month) > 0) {
-				statement.close();
-				c.close();
-				return false;
-			} else {
-				statement.close();
-				c.close();
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
 }

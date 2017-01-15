@@ -66,7 +66,6 @@ public class Database {
 	}
 
 	public boolean isValueZero(String month, String name) {
-
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement
