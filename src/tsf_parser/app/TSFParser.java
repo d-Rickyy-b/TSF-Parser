@@ -26,10 +26,11 @@ public class TSFParser {
 	private ArrayList<TSFMember> memberList;
 	private boolean displayGUI;
 	private static Database database;
+	private boolean noToAll = false;
+	private boolean yesToAll = false;
+	//TODO implement yestoall / notoall
 
 	// TODO pass parameters -> noGui
-	// TODO Graphic interface
-	// TODO select month from drop down menu and start sorting afterwards
 	// TODO Create database at the beginning
 	// TODO create table in db
 	// TODO table name = year<current year yyyy> (example: year2016)
@@ -75,7 +76,7 @@ public class TSFParser {
 				System.out.println(member.getName());
 			}
 
-			// TODO move to GUI
+			// TODO move to GUI ??
 			processUsers();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,14 +104,12 @@ public class TSFParser {
 
 					int currentValue = database.getFromDB(monthsList.get(selectedMonth), member.getName());
 					int newValue = member.getMonth(selectedMonth);
-
-//					System.out.print("Add " + newValue + " to " + currentValue + "? (Y/n): ");
 					boolean modifyValue = Output.userDialog(displayGUI, text + "\nAdd " + newValue + " to " + currentValue + "? (Y/n): ");
 					//TODO Add "No to all" field
+					
+//					System.out.print("Add " + newValue + " to " + currentValue + "? (Y/n): ");
 //					String Answer = scanner.nextLine();
 //					// scanner.close();
-//
-//					// TODO if console application -> this, else popup
 //					if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
 //						writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';",
 //								monthsList.get(selectedMonth), monthsList.get(selectedMonth), newValue,
@@ -175,79 +174,6 @@ public class TSFParser {
 		}
 
 	}
-
-//	// checks if a certain username is already saved in the database.
-//	private static boolean isSaved(String name) {
-//		Connection c = null;
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// TODO variable db path
-//			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
-//			Statement statement = c.createStatement();
-//			ResultSet resultSet = statement
-//					.executeQuery(String.format("SELECT COUNT(*) FROM stats WHERE name='%s';", name));
-//
-//			int size = 0;
-//
-//			while (resultSet.next()) {
-//				size = resultSet.getInt(1);
-//			}
-//
-//			if (size > 0) {
-//				statement.close();
-//				c.close();
-//				return true;
-//			} else {
-//				statement.close();
-//				c.close();
-//				return false;
-//			}
-//
-//		} catch (Exception e) {
-//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//			System.exit(1);
-//		}
-//		return true;
-//	}
-//
-//	// executes a certain sql statement
-//	private static void writeToDB(String sql) {
-//		Connection c = null;
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// TODO variable db path
-//			c = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF Parser\\src\\tsf-database.db");
-//			Statement statement = c.createStatement();
-//			statement.executeUpdate(sql);
-//			statement.close();
-//			c.close();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	// private static int getFromDB(String month, String name) {
-	// Connection c = null;
-	// int result;
-	// try {
-	// Class.forName("org.sqlite.JDBC");
-	// //TODO variable db path
-	// c =
-	// DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rico\\workspace\\TSF
-	// Parser\\src\\tsf-database.db");
-	// Statement statement = c.createStatement();
-	// ResultSet resultSet = statement.executeQuery(String.format("SELECT %s
-	// FROM stats WHERE name='%s';", month, name));
-	// resultSet.next();
-	//
-	// result = resultSet.getInt(month);
-	// c.close();
-	// return result;
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return 0;
-	// }
 
 	// Checks if a certain user got 0 answers in a certain month
 	private static boolean isValueZero(String month, String name) {

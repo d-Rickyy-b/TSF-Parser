@@ -26,7 +26,6 @@ public class Output {
 			String Answer = scanner.nextLine();
 			// scanner.close();
 
-			// TODO if console application -> this, else popup
 			if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
 				return true;
 			} else {

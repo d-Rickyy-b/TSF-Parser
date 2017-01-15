@@ -67,7 +67,6 @@ public class MainGUI extends JFrame {
 						e.printStackTrace();
 					}
 				} else {
-					// TODO Do stuff without the GUI.
 					TSFParser parser = new TSFParser(displayGUI);
 					parser.parseMonths();
 					parser.setMonth(1);
