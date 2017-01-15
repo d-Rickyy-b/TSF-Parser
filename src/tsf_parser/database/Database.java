@@ -42,7 +42,6 @@ public class Database {
 
 	// Sets the path on the HDD to the DB
 	public boolean setDatabasePath(String path) {
-		// TODO replace \ with \\ ??
 		System.out.println("DB Path: " + path);
 		if (!path.endsWith(".db"))
 			return false;

@@ -28,11 +28,8 @@ public class TSFParser {
 	private static Database database;
 	private boolean noToAll = false;
 	private boolean yesToAll = false;
-	// TODO implement yestoall / notoall
 
-	// TODO pass parameters -> noGui
-	// TODO Create database at the beginning
-	// TODO create table in db
+	// TODO implement yestoall / notoall
 	// TODO table name = year<current year yyyy> (example: year2016)
 
 	public TSFParser(boolean displayGUI) {
@@ -76,7 +73,6 @@ public class TSFParser {
 				System.out.println(member.getName());
 			}
 
-			// TODO move to GUI ??
 			processUsers();
 		} catch (Exception e) {
 			e.printStackTrace();
