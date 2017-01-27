@@ -4,7 +4,7 @@
 This is a Java application to parse and download the [TSF](https://core.telegram.org/tsi) leaderboards to a local database
 
 ## Database
-To use this application you need a SQLite v3 Database. I reccomend [SQLite Browser](http://sqlitebrowser.org/) for creating and editing the database. You can create one on your own with the following SQL statement:
+To use this application you need a SQLite v3 Database. I recommend [SQLite Browser](http://sqlitebrowser.org/) for creating and editing the database. You can create one on your own with the following SQL statement:
 
 ```SQL
 CREATE TABLE 'stats' (
