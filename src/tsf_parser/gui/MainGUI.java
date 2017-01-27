@@ -113,10 +113,10 @@ public class MainGUI extends JFrame {
 		});
 		contentPane.add(btnStartDownload);
 
-		JLabel lblDatabasePath = new JLabel("Database path:");
-		lblDatabasePath.setBounds(5, 4, 94, 23);
-		contentPane.add(lblDatabasePath);
-		lblDatabasePath.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel databasePathLabel = new JLabel("Database path:");
+		databasePathLabel.setBounds(5, 4, 94, 23);
+		contentPane.add(databasePathLabel);
+		databasePathLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
 		databaseTextField = new JTextField();
 		databaseTextField.setBounds(109, 4, 347, 23);
