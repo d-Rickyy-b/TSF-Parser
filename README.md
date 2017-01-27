@@ -1,3 +1,5 @@
+[![GitHub version](https://badge.fury.io/gh/d-Rickyy-b%2FTSF-Parser.svg)](https://badge.fury.io/gh/d-Rickyy-b%2FTSF-Parser)
+
 # TSF-Parser
 This is a Java application to parse and download the [TSF](https://core.telegram.org/tsi) leaderboards to a local database
 
