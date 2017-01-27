@@ -25,7 +25,7 @@ public class MainGUI extends JFrame {
 	private TSFParser parser;
 	private JButton btnNewButton;
 	private JLabel label;
-	private JComboBox<String> comboBox;
+	private JComboBox<String> monthChooserComboBox;
 	private static String versionString = "0.1";
 	private static String databasePath = "";
 	private static boolean displayGUI = true;
