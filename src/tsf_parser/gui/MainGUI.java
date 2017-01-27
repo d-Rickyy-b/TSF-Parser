@@ -24,7 +24,7 @@ public class MainGUI extends JFrame {
 	private JTextField textField;
 	private TSFParser parser;
 	private JButton btnNewButton;
-	private JLabel label;
+	private JLabel monthLabel;
 	private JComboBox<String> monthChooserComboBox;
 	private static String versionString = "0.1";
 	private static String databasePath = "";
@@ -127,10 +127,10 @@ public class MainGUI extends JFrame {
 		btnNewButton.setBounds(466, 4, 94, 23);
 		contentPane.add(btnNewButton);
 
-		label = new JLabel("Month:");
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setBounds(5, 42, 94, 14);
-		contentPane.add(label);
+		monthLabel = new JLabel("Month:");
+		monthLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		monthLabel.setBounds(5, 42, 94, 14);
+		contentPane.add(monthLabel);
 
 		monthChooserComboBox = new JComboBox<String>();
 		monthChooserComboBox.setBounds(109, 39, 58, 20);
