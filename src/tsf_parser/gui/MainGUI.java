@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tsf_parser.app.TSFParser;
 import tsf_parser.output.Output;
@@ -13,6 +14,7 @@ import tsf_parser.output.Output;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -127,7 +129,19 @@ public class MainGUI extends JFrame {
 		browseDBButton = new JButton("Browse");
 		browseDBButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(textField.getText());
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Please select your database file");
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				chooser.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite Database File", "db");
+				chooser.setFileFilter(filter);
+
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					databaseTextField.setText(chooser.getSelectedFile().toString());
+				} else {
+					System.out.println("No Selection");
+				}
 			}
 		});
 		browseDBButton.setBounds(466, 4, 94, 23);
