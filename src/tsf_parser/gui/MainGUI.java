@@ -132,22 +132,22 @@ public class MainGUI extends JFrame {
 		label.setBounds(5, 42, 94, 14);
 		contentPane.add(label);
 
-		comboBox = new JComboBox<String>();
-		comboBox.setBounds(109, 39, 58, 20);
-		contentPane.add(comboBox);
+		monthChooserComboBox = new JComboBox<String>();
+		monthChooserComboBox.setBounds(109, 39, 58, 20);
+		contentPane.add(monthChooserComboBox);
 
 		// Start of parsing the months, so they can be displayed in the ComboBox
 		parser = new TSFParser(displayGUI);
 		parser.parseMonths();
 		ArrayList<String> months = parser.getMonthsList();
 		for (String month : months) {
-			comboBox.addItem(month);
+			monthChooserComboBox.addItem(month);
 		}
 	}
 
 	private void startParsing() {
-		this.parser.setMonth(this.comboBox.getSelectedIndex());
-		System.out.println(this.comboBox.getSelectedIndex());
+		this.parser.setMonth(this.monthChooserComboBox.getSelectedIndex());
+		System.out.println(this.monthChooserComboBox.getSelectedIndex());
 		System.out.println(databasePath);
 		this.parser.parseUsers(databasePath);
 		String dir = System.getProperty("user.dir");
