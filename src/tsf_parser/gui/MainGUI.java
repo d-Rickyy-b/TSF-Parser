@@ -30,7 +30,7 @@ public class MainGUI extends JFrame {
 	private JButton browseDBButton;
 	private JLabel monthLabel;
 	private JComboBox<String> monthChooserComboBox;
-	private static String versionString = "0.1.1";
+	private static String versionString = "0.1.2";
 	private static String databasePath = "";
 	private static boolean displayGUI = true;
 
