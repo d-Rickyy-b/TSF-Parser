@@ -1,5 +1,7 @@
 package tsf_parser.database;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -130,6 +132,41 @@ public class Database {
 
 	// TODO create a database file
 	public void createDatabase() {
+
+	}
+
+	public boolean writeCSV(String exportPath, String seperator) {
+		try {
+			
+			String csvContent = String.join(seperator, "Name", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec\n");
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM stats;");
+
+			while (resultSet.next()) {
+				String row = "";
+				for (int month = 1; month <= 14; month++) {
+					if (month != 2 && month != 14) {
+						row += resultSet.getString(month) + seperator;
+					} else if (month == 14) {
+						row += resultSet.getString(month);
+					}
+				}
+				csvContent += row + "\n";
+			}
+
+			try {
+				// TODO works only on Windows due to backslashes
+				PrintWriter writer = new PrintWriter(exportPath + "\\tsf-export.csv", "UTF-8");
+				writer.print(csvContent);
+				writer.close();
+			} catch (IOException e) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 
 	}
 

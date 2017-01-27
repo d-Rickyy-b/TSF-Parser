@@ -1,5 +1,6 @@
 package tsf_parser.gui;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
@@ -99,7 +100,7 @@ public class MainGUI extends JFrame {
 		contentPane.setLayout(null);
 
 		JButton btnStartDownload = new JButton("Start download");
-		btnStartDownload.setBounds(312, 38, 248, 23);
+		btnStartDownload.setBounds(370, 38, 190, 23);
 		btnStartDownload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// If the button "Start download" will be pressed, the website
@@ -155,6 +156,17 @@ public class MainGUI extends JFrame {
 		monthChooserComboBox = new JComboBox<String>();
 		monthChooserComboBox.setBounds(109, 39, 58, 20);
 		contentPane.add(monthChooserComboBox);
+		
+		JButton btnExportToCSV = new JButton("Export (CSV)");
+		btnExportToCSV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CSVExportDialog csvExport = new CSVExportDialog("Export database to CSV", MainGUI.this);
+				csvExport.setModalityType(ModalityType.APPLICATION_MODAL);
+				csvExport.setVisible(true);
+			}
+		});
+		btnExportToCSV.setBounds(210, 38, 150, 23);
+		contentPane.add(btnExportToCSV);
 
 		// Start of parsing the months, so they can be displayed in the ComboBox
 		parser = new TSFParser(displayGUI);
@@ -170,7 +182,5 @@ public class MainGUI extends JFrame {
 		System.out.println(this.monthChooserComboBox.getSelectedIndex());
 		System.out.println(databasePath);
 		this.parser.parseUsers(databasePath);
-		// String dir = System.getProperty("user.dir");
-		// System.out.println(dir);
 	}
 }
