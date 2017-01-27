@@ -24,7 +24,7 @@ public class MainGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField databaseTextField;
 	private TSFParser parser;
-	private JButton btnNewButton;
+	private JButton browseDBButton;
 	private JLabel monthLabel;
 	private JComboBox<String> monthChooserComboBox;
 	private static String versionString = "0.1";
@@ -124,14 +124,14 @@ public class MainGUI extends JFrame {
 		databaseTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		databaseTextField.setColumns(10);
 
-		btnNewButton = new JButton("Browse");
-		btnNewButton.addActionListener(new ActionListener() {
+		browseDBButton = new JButton("Browse");
+		browseDBButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(textField.getText());
 			}
 		});
-		btnNewButton.setBounds(466, 4, 94, 23);
-		contentPane.add(btnNewButton);
+		browseDBButton.setBounds(466, 4, 94, 23);
+		contentPane.add(browseDBButton);
 
 		monthLabel = new JLabel("Month:");
 		monthLabel.setHorizontalAlignment(SwingConstants.LEFT);
