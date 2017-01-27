@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import tsf_parser.app.TSFParser;
+import tsf_parser.output.Output;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -21,7 +22,7 @@ import javax.swing.SwingConstants;
 public class MainGUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField databaseTextField;
 	private TSFParser parser;
 	private JButton btnNewButton;
 	private JLabel monthLabel;
@@ -101,8 +102,13 @@ public class MainGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// If the button "Start download" will be pressed, the website
 				// will be parsed and saved to the database
-				databasePath = textField.getText();
-				startParsing();
+				databasePath = databaseTextField.getText();
+
+				if (!databasePath.endsWith(".db")) {
+					Output.print(displayGUI, "Path to database must end with '.db'");
+				} else {
+					startParsing();
+				}
 			}
 		});
 		contentPane.add(btnStartDownload);
@@ -112,11 +118,11 @@ public class MainGUI extends JFrame {
 		contentPane.add(lblDatabasePath);
 		lblDatabasePath.setHorizontalAlignment(SwingConstants.LEFT);
 
-		textField = new JTextField();
-		textField.setBounds(109, 4, 347, 23);
-		contentPane.add(textField);
-		textField.setHorizontalAlignment(SwingConstants.LEFT);
-		textField.setColumns(10);
+		databaseTextField = new JTextField();
+		databaseTextField.setBounds(109, 4, 347, 23);
+		contentPane.add(databaseTextField);
+		databaseTextField.setHorizontalAlignment(SwingConstants.LEFT);
+		databaseTextField.setColumns(10);
 
 		btnNewButton = new JButton("Browse");
 		btnNewButton.addActionListener(new ActionListener() {
