@@ -170,7 +170,7 @@ public class MainGUI extends JFrame {
 		System.out.println(this.monthChooserComboBox.getSelectedIndex());
 		System.out.println(databasePath);
 		this.parser.parseUsers(databasePath);
-		String dir = System.getProperty("user.dir");
-		System.out.println(dir);
+		// String dir = System.getProperty("user.dir");
+		// System.out.println(dir);
 	}
 }
