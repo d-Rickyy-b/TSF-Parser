@@ -24,3 +24,13 @@ CREATE TABLE 'stats' (
 	'dec'	INTEGER NOT NULL DEFAULT 0
 );
 ```
+
+## Usage
+
+You can run the .jar file as it is. Then a GUI opens up and you can use it as other programs.
+
+OR you can use it as a commandline program. Just pass the **full** path to the database file as a command line parameter. This will look something like this:
+
+```java -jar TSF_Parser_v0.x.x.jar C:\Users\<yourName>\Desktop\tsf-database.db```
+
+The program will then launch in a command prompt.
