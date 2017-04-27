@@ -30,11 +30,11 @@ public class TSFMember {
 	}
 
 	public void setMonth1(int value) {
-		this.answers[0] = value;
+		this.answers[1] = value;
 	}
 
 	public void setMonth2(int value) {
-		this.answers[0] = value;
+		this.answers[2] = value;
 	}
 
 	public int getMonth(int month) {
