@@ -9,7 +9,7 @@ To use this application you need a SQLite v3 Database. I recommend [SQLite Brows
 ```SQL
 CREATE TABLE 'stats' (
 	'name'	TEXT NOT NULL UNIQUE,
-	'region'	TEXT,
+	'region' TEXT,
 	'jan'	INTEGER NOT NULL DEFAULT 0,
 	'feb'	INTEGER NOT NULL DEFAULT 0,
 	'mar'	INTEGER NOT NULL DEFAULT 0,
