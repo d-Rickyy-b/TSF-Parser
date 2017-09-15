@@ -175,6 +175,10 @@ public class MainGUI extends JFrame {
 		for (String month : months) {
 			monthChooserComboBox.addItem(month);
 		}
+		
+		if (monthChooserComboBox.getItemCount() > 0){
+			monthChooserComboBox.setSelectedIndex(1);
+		}
 	}
 
 	private void startParsing() {
