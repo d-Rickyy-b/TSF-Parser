@@ -105,6 +105,8 @@ public class TSFParser {
 			}
 		}
 		Output.print(displayGUI, "All members processed. Number of processed members: " + memberList.size());
+		yesToAll = noToAll = false;
+		database.unloadDatabase();
 	}
 
 	public ArrayList<String> getMonthsList() {
