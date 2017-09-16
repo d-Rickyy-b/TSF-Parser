@@ -49,7 +49,7 @@ public class MainGUI extends JFrame {
 					System.exit(-1);
 				} else if (args.length == 1) {
 					displayGUI = false;
-				}
+				} 
 
 				for (String element : args) {
 					System.out.println(element);
