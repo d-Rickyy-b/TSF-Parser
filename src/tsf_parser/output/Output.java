@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 
 public class Output {
 
+	public static final Object[] OPTIONS = { "Yes", "No", "Yes To All", "No To All" };
+
 	public static void print(boolean displayGUI, String text) {
 		if (displayGUI) {
 			JOptionPane.showMessageDialog(null, text, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
@@ -14,22 +16,30 @@ public class Output {
 		}
 	}
 
-	public static boolean userDialog(boolean displayGUI, String text) {
+	public static int userDialog(boolean displayGUI, String text) {
 		if (displayGUI) {
-			int reply = JOptionPane.showConfirmDialog(null, text, "Info", JOptionPane.YES_NO_OPTION);
-			System.out.println(reply == JOptionPane.YES_OPTION);
-			return reply == JOptionPane.YES_OPTION;
+			int reply = JOptionPane.showOptionDialog(null, text, "Info", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, OPTIONS, OPTIONS[2]);
+			return reply;
 		} else {
-			System.out.println(text);
+			System.out.println(text + " (y/Y/n/N): ");
 			Scanner scanner;
 			scanner = new Scanner(System.in);
 			String Answer = scanner.nextLine();
-			// scanner.close();
+			scanner.close();
 
-			if (Answer.equals("y") || Answer.equals("Y") || Answer.isEmpty()) {
-				return true;
+			if (Answer.equals("y") || Answer.isEmpty()) {
+				return 0;
+			} else if (Answer.equals("Y")) {
+				return 2;
+			} else if (Answer.equals("n")) {
+				return 1;
+			} else if (Answer.equals("Y")) {
+				return 2;
+			} else if (Answer.equals("N")) {
+				return 3;
 			} else {
-				return false;
+				return 0;
 			}
 			// TODO No to all (capital N)
 		}

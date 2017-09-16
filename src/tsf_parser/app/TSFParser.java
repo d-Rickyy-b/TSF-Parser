@@ -24,6 +24,11 @@ public class TSFParser {
 	private boolean noToAll = false;
 	private boolean yesToAll = false;
 
+	private int OPT_Y = 0;
+	private int OPT_N = 1;
+	private int OPT_YTA = 2;
+	private int OPT_NTA = 3;
+
 	// TODO implement yestoall / notoall
 	// TODO table name = year<current year yyyy> (example: year2016)
 
@@ -87,13 +92,29 @@ public class TSFParser {
 			if (database.isValueZero(monthsList.get(selectedMonth), member.getName())) {
 				database.writeToDB(member.getSQLStatement(monthsList.get(selectedMonth)));
 			} else if (member.getMonth(selectedMonth) != 0) {
-				String text = "The field is already filled! Member: " + member.getName();
-
 				int currentValue = database.getFromDB(monthsList.get(selectedMonth), member.getName());
 				int newValue = member.getMonth(selectedMonth);
-				boolean modifyValue = Output.userDialog(displayGUI,
-						text + "\nAdd " + newValue + " to " + currentValue + "? (Y/n): ");
-				// TODO Add "No to all" field
+				boolean modifyValue = false;
+
+				if (!yesToAll && !noToAll) {
+					String text = "The field is already filled! Member: " + member.getName();
+					int userInput = Output.userDialog(displayGUI,
+							text + "\nAdd " + newValue + " to " + currentValue + "?");
+
+					if (userInput == OPT_YTA || userInput == OPT_Y) {
+						modifyValue = true;
+						if (userInput == OPT_YTA)
+							yesToAll = true;
+					} else if (userInput == OPT_NTA || userInput == OPT_N) {
+						modifyValue = false;
+						if (userInput == OPT_NTA)
+							noToAll = true;
+					}
+				} else if (yesToAll) {
+					modifyValue = true;
+				} else if (noToAll) {
+					modifyValue = false;
+				}
 
 				if (modifyValue) {
 					database.writeToDB(String.format("UPDATE stats SET %s = %s + %s WHERE name='%s';",
@@ -101,7 +122,8 @@ public class TSFParser {
 				}
 
 			} else {
-				System.out.println(String.format("Value must be zero: %s | %s", member.getName(), member.getMonth(selectedMonth)));
+				System.out.println(
+						String.format("Value must be zero: %s | %s", member.getName(), member.getMonth(selectedMonth)));
 			}
 		}
 		Output.print(displayGUI, "All members processed. Number of processed members: " + memberList.size());
