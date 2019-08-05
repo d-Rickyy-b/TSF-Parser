@@ -1,8 +1,7 @@
 package tsf_parser.output;
 
+import javax.swing.*;
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
 
 public class Output {
 
@@ -28,14 +27,12 @@ public class Output {
 			String Answer = scanner.nextLine();
 			scanner.close();
 
-			if (Answer.equals("y") || Answer.isEmpty()) {
+			if (Answer.isEmpty() || Answer.equals("y")) {
 				return 0;
 			} else if (Answer.equals("Y")) {
 				return 2;
 			} else if (Answer.equals("n")) {
 				return 1;
-			} else if (Answer.equals("Y")) {
-				return 2;
 			} else if (Answer.equals("N")) {
 				return 3;
 			} else {
