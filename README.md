@@ -1,7 +1,9 @@
 [![GitHub version](https://badge.fury.io/gh/d-Rickyy-b%2FTSF-Parser.svg)](https://badge.fury.io/gh/d-Rickyy-b%2FTSF-Parser)
 
 # TSF-Parser
-This is a Java application to parse and download the [TSF](https://core.telegram.org/tsi) leaderboards to a local database
+This is a Java application to parse and download the [TSF](https://core.telegram.org/tsi) leaderboards to a local database.
+
+⚠️ As of mid 2019 (~july or so), the leaderboards are no longer publically accessible and hence I'll archive this project. It was a fun little project. Thank you @TSF for everything.
 
 ## Database
 To use this application you need a SQLite v3 Database. I recommend [SQLite Browser](http://sqlitebrowser.org/) for creating and editing the database. You'll find an empty database in the 'Release' section of this repo. You can create one on your own with the following SQL statement:
